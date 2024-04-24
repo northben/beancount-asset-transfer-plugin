@@ -60,9 +60,10 @@ def transfer(entries, option_map):
             destination_account = destination_account.value
 
             postings = []
-
             # Process lots LIFO
-            lots = sorted(accounts[source_account], key=lambda a: a.acquisition_date, reverse=True)
+            # BGN
+            import datetime
+            lots = sorted(accounts[source_account], key=lambda a: a.acquisition_date if a.acquisition_date is not None else datetime.date(2000,1,1), reverse=True)
             for lot in lots:
                 currency_units = lot.units.get_currency_units(currency)
                 if currency_units.number == 0:
